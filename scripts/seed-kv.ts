@@ -4,7 +4,9 @@ import path from "path";
 dotenv.config({ path: path.join(process.cwd(), ".env.local") });
 
 import fs from "fs";
-import { kv } from "@vercel/kv";
+import { Redis } from "@upstash/redis";
+
+const kv = Redis.fromEnv();
 import type { Location } from "../src/lib/types";
 
 const DATA_PATH = path.join(process.cwd(), "data", "locations.json");
@@ -17,9 +19,9 @@ function locKey(slug: string): string {
 async function main() {
   console.log("Gracklefinder — Seeding Vercel KV from locations.json\n");
 
-  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
     console.error(
-      "ERROR: KV_REST_API_URL and KV_REST_API_TOKEN must be set in .env.local"
+      "ERROR: UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set in .env.local"
     );
     process.exit(1);
   }
@@ -53,7 +55,9 @@ async function main() {
       pipeline.set(locKey(loc.slug), loc);
       slugs.push(loc.slug);
     }
-    pipeline.sadd(ALL_KEY, ...slugs);
+    for (const slug of slugs) {
+      pipeline.sadd(ALL_KEY, slug);
+    }
 
     await pipeline.exec();
     seeded += chunk.length;

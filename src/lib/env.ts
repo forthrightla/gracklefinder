@@ -3,8 +3,8 @@
 
 interface EnvConfig {
   NEXT_PUBLIC_MAPBOX_TOKEN: string;
-  KV_REST_API_URL: string;
-  KV_REST_API_TOKEN: string;
+  UPSTASH_REDIS_REST_URL: string;
+  UPSTASH_REDIS_REST_TOKEN: string;
 }
 
 interface PipelineEnvConfig extends EnvConfig {
@@ -15,8 +15,8 @@ interface PipelineEnvConfig extends EnvConfig {
 
 const requiredVars: (keyof EnvConfig)[] = [
   "NEXT_PUBLIC_MAPBOX_TOKEN",
-  "KV_REST_API_URL",
-  "KV_REST_API_TOKEN",
+  "UPSTASH_REDIS_REST_URL",
+  "UPSTASH_REDIS_REST_TOKEN",
 ];
 
 const pipelineVars: (keyof PipelineEnvConfig)[] = [
@@ -36,8 +36,8 @@ export function validateEnv(): EnvConfig {
   }
   return {
     NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN!,
-    KV_REST_API_URL: process.env.KV_REST_API_URL!,
-    KV_REST_API_TOKEN: process.env.KV_REST_API_TOKEN!,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL!,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN!,
   };
 }
 
@@ -51,8 +51,8 @@ export function validatePipelineEnv(): PipelineEnvConfig {
   }
   return {
     NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN!,
-    KV_REST_API_URL: process.env.KV_REST_API_URL!,
-    KV_REST_API_TOKEN: process.env.KV_REST_API_TOKEN!,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL!,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN!,
     GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY!,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY!,
     REFRESH_SECRET: process.env.REFRESH_SECRET!,
