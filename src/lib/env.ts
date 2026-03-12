@@ -1,10 +1,10 @@
 // Environment variable validation
-// Import this in API routes to get clear errors on missing config
+// Accepts either UPSTASH_REDIS_REST_* or KV_REST_API_* naming conventions
 
 interface EnvConfig {
   NEXT_PUBLIC_MAPBOX_TOKEN: string;
-  UPSTASH_REDIS_REST_URL: string;
-  UPSTASH_REDIS_REST_TOKEN: string;
+  redisUrl: string;
+  redisToken: string;
 }
 
 interface PipelineEnvConfig extends EnvConfig {
@@ -13,21 +13,20 @@ interface PipelineEnvConfig extends EnvConfig {
   REFRESH_SECRET: string;
 }
 
-const requiredVars: (keyof EnvConfig)[] = [
-  "NEXT_PUBLIC_MAPBOX_TOKEN",
-  "UPSTASH_REDIS_REST_URL",
-  "UPSTASH_REDIS_REST_TOKEN",
-];
+function getRedisUrl(): string | undefined {
+  return process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+}
 
-const pipelineVars: (keyof PipelineEnvConfig)[] = [
-  ...requiredVars,
-  "GOOGLE_PLACES_API_KEY",
-  "GEMINI_API_KEY",
-  "REFRESH_SECRET",
-];
+function getRedisToken(): string | undefined {
+  return process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+}
 
 export function validateEnv(): EnvConfig {
-  const missing = requiredVars.filter((key) => !process.env[key]);
+  const missing: string[] = [];
+  if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) missing.push("NEXT_PUBLIC_MAPBOX_TOKEN");
+  if (!getRedisUrl()) missing.push("UPSTASH_REDIS_REST_URL or KV_REST_API_URL");
+  if (!getRedisToken()) missing.push("UPSTASH_REDIS_REST_TOKEN or KV_REST_API_TOKEN");
+
   if (missing.length > 0) {
     throw new Error(
       `Missing required environment variables: ${missing.join(", ")}. ` +
@@ -36,13 +35,18 @@ export function validateEnv(): EnvConfig {
   }
   return {
     NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN!,
-    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL!,
-    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    redisUrl: getRedisUrl()!,
+    redisToken: getRedisToken()!,
   };
 }
 
 export function validatePipelineEnv(): PipelineEnvConfig {
-  const missing = pipelineVars.filter((key) => !process.env[key]);
+  const base = validateEnv();
+  const missing: string[] = [];
+  if (!process.env.GOOGLE_PLACES_API_KEY) missing.push("GOOGLE_PLACES_API_KEY");
+  if (!process.env.GEMINI_API_KEY) missing.push("GEMINI_API_KEY");
+  if (!process.env.REFRESH_SECRET) missing.push("REFRESH_SECRET");
+
   if (missing.length > 0) {
     throw new Error(
       `Missing pipeline environment variables: ${missing.join(", ")}. ` +
@@ -50,9 +54,7 @@ export function validatePipelineEnv(): PipelineEnvConfig {
     );
   }
   return {
-    NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN!,
-    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL!,
-    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    ...base,
     GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY!,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY!,
     REFRESH_SECRET: process.env.REFRESH_SECRET!,
