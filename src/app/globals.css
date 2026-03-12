@@ -2,26 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* ----- Mapbox popup overrides (dark theme) ----- */
+
+.mapboxgl-popup-content {
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: #1a1a1a !important;
+  border-bottom-color: #1a1a1a !important;
+  border-left-color: #1a1a1a !important;
+  border-right-color: #1a1a1a !important;
+}
+
+.mapboxgl-popup-close-button {
+  display: none;
+}
+
+/* ----- Animations ----- */
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.25s ease-out both;
+}
+
+/* Marker hover pulse */
+.marker-hover {
+  transition: transform 0.15s ease;
+}
+.marker-hover:hover {
+  transform: scale(1.2);
+}
+
+/* Card hover glow */
+.card-glow {
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.card-glow:hover {
+  box-shadow: 0 0 12px rgba(155, 93, 229, 0.15);
 }

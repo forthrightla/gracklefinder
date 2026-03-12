@@ -28,6 +28,12 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# pipeline data (seeded into Vercel KV, not needed in repo)
+/data
+
+# claude code
+.claude/
+
 # vercel
 .vercel
 

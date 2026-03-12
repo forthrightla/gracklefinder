@@ -1,0 +1,15 @@
+<svg width="200" height="40" viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Grackle bird -->
+  <ellipse cx="16" cy="20" rx="7" ry="5" fill="#9b5de5" transform="rotate(-15 16 20)"/>
+  <circle cx="23" cy="15" r="3.5" fill="#9b5de5"/>
+  <circle cx="24.2" cy="14.3" r="0.9" fill="#0f0f0f"/>
+  <polygon points="26.5,14.5 31,13.2 26.5,15.8" fill="#666"/>
+  <path d="M9 22 Q4 26 2 33 Q5 28 8 25 Q6 29 4 34 Q7 29 9 25" fill="#9b5de5"/>
+  <path d="M13 17 Q16 16 19 17 Q16 19 13 20 Z" fill="#9b5de5" opacity="0.7"/>
+  <line x1="15" y1="24" x2="14" y2="30" stroke="#666" stroke-width="0.8"/>
+  <line x1="17" y1="24" x2="17" y2="30" stroke="#666" stroke-width="0.8"/>
+  <!-- Wifi arcs -->
+  <path d="M28 18 Q31 14 34 18" stroke="#9b5de5" stroke-width="1.2" fill="none" opacity="0.5"/>
+  <path d="M27 20 Q31 13 35 20" stroke="#9b5de5" stroke-width="1.2" fill="none" opacity="0.35"/>
+  <path d="M26 22 Q31 12 36 22" stroke="#9b5de5" stroke-width="1.2" fill="none" opacity="0.2"/>
+</svg>
