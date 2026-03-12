@@ -13,8 +13,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import MapLegend from "./MapLegend";
 
-import fallbackData from "../../data/locations.json";
-
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
 
 export default function MapView() {
@@ -34,7 +32,7 @@ export default function MapView() {
           setAllLocations(locations as Location[]);
         })
       .catch(() => {
-        setAllLocations(fallbackData as Location[]);
+        setAllLocations([]);
       });
   }, []);
 
